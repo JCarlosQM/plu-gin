@@ -18,7 +18,7 @@ function cambiarModo() {
     } else {
         modeIcon.src = "./image/light.svg"; // Icono de modo claro
     }
-    
+
     // Guardar modo en almacenamiento
     chrome.storage.local.set({ mode: isDarkMode ? "dark" : "light" });
 }
@@ -30,7 +30,8 @@ function agregarFila() {
     if (listaActividades.children.length >= LIMITE_FILAS) {
         notificacion.textContent = "Solo se permiten 5 registros de actividades.";
         notificacion.style.display = "block";
-        notificacion.style.fontSize = "10px"; 
+        notificacion.style.fontSize = "10px";
+        notificacion.style.color = "red";
         return;
     }
 
@@ -79,11 +80,13 @@ function agregarFila() {
 
         const menu = nuevaActividad.querySelector(".options-menu");
         menu.style.display = "none"; // Ocultar el menú después de hacer clic
+        guardarDatos(); // Guardar los datos después de concluir
     });
 
     // Eliminar actividad
     nuevaActividad.querySelector(".btn-eliminar").addEventListener("click", function () {
         listaActividades.removeChild(nuevaActividad);
+        guardarDatos(); // Actualizar el almacenamiento después de eliminar la actividad
     });
 
     actualizarNumeros();
@@ -140,7 +143,7 @@ function restaurarDatos() {
 
         // Restaurar actividades
         if (result.actividades) {
-            listaActividades.innerHTML = "";
+            listaActividades.innerHTML = ""; // Limpiar la lista antes de restaurar
             result.actividades.forEach((actividad, index) => {
                 const nuevaActividad = document.createElement("li");
                 nuevaActividad.className = "list-group-item d-flex align-items-center";
@@ -175,21 +178,20 @@ function restaurarDatos() {
                 nuevaActividad.querySelector(".btn-concluir").addEventListener("click", function () {
                     const isConcluida = nuevaActividad.classList.contains("concluida");
                     if (isConcluida) {
-                        // Reabrir la tarea
                         nuevaActividad.classList.remove("concluida");
-                        this.textContent = "Concluir"; // Cambiar el texto a "Concluir"
+                        this.textContent = "Concluir";
                     } else {
-                        // Concluir la tarea
                         nuevaActividad.classList.add("concluida");
-                        this.textContent = "Reabrir"; // Cambiar el texto a "Reabrir"
+                        this.textContent = "Reabrir";
                     }
-
                     const menu = nuevaActividad.querySelector(".options-menu");
                     menu.style.display = "none"; // Ocultar el menú después de hacer clic
+                    guardarDatos(); // Guardar los datos después de concluir
                 });
 
                 nuevaActividad.querySelector(".btn-eliminar").addEventListener("click", function () {
                     listaActividades.removeChild(nuevaActividad);
+                    guardarDatos(); // Actualizar los datos después de eliminar la actividad
                 });
             });
             actualizarNumeros();
