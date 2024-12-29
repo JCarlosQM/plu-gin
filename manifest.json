@@ -4,7 +4,7 @@
   "version": "1.0",
   "description": "Gestiona tu tiempo, y haz que este se cumpla diariamente",
   "icons": {
-      "128": "icon.png"
+      "128": "./image/icon.webp"
   },
   "action": {
       "default_popup": "popup.html"

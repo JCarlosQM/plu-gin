@@ -134,7 +134,13 @@ body.dark-mode .btn:hover {
     text-decoration: line-through; /* Opcional: Tachar el texto */
 }
 
-
 .pos-but{
     margin-top: -5px;
 }
+
+.data_text{
+    color: #27ae60;
+    font-size: 20px;
+
+}
+
